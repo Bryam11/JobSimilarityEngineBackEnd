@@ -22,11 +22,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 # Copiar código de la aplicación y modelo
 COPY app_fastapi.py .
 
-# Crear directorio y copiar archivos del modelo de forma explícita
-RUN mkdir -p job_recommendation_model
-COPY job_recommendation_model/*.csv ./job_recommendation_model/
-COPY job_recommendation_model/*.pkl ./job_recommendation_model/
-COPY job_recommendation_model/*.joblib ./job_recommendation_model/
+# Copiar toda la carpeta del modelo de una vez
 COPY job_recommendation_model/ ./job_recommendation_model/
 
 # Verificar que los archivos se copiaron correctamente
