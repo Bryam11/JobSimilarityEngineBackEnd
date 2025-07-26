@@ -764,4 +764,4 @@ async def get_statistics():
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
-    uvicorn.run("app_fastapi:app", host="0.0.0.0", port=9090, reload=True)
+    uvicorn.run("app_fastapi:app", host="0.0.0.0", port=8080, reload=True)
