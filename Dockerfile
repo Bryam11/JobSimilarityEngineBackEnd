@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar código de la aplicación y modelo
 COPY app_fastapi.py .
-COPY job_similarity_model/ ./job_similarity_model/
+COPY job_recommendation_model/ ./job_recommendation_model/
 
 # Exponer puerto
 EXPOSE 8000
