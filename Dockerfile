@@ -28,7 +28,7 @@ EXPOSE 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:$PORT/api/model/health || exit 1
+    CMD curl -f http://localhost:$PORT/api/model/health || exit 1
 
 # Comando para ejecutar la aplicación con timeout aumentado
 CMD exec uvicorn app_fastapi:app --host 0.0.0.0 --port $PORT --timeout-keep-alive 60
