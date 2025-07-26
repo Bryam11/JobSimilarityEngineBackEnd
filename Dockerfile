@@ -23,6 +23,11 @@ RUN pip install --no-cache-dir --upgrade pip \
 COPY app_fastapi.py .
 COPY job_recommendation_model/ ./job_recommendation_model/
 
+# Verificar que los archivos se copiaron correctamente
+RUN ls -la job_recommendation_model/ && \
+    echo "Archivos en job_recommendation_model:" && \
+    find job_recommendation_model/ -type f -name "*.csv" -ls
+
 # Exponer puerto
 EXPOSE 8080
 
