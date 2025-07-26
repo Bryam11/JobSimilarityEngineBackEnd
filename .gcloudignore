@@ -1,0 +1,21 @@
+# .gcloudignore - Archivos que Cloud Build debe IGNORAR
+.git
+.gitignore
+README.md
+.dockerignore
+.vscode/
+.idea/
+node_modules/
+*.log
+.env
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# NO IGNORAR estos archivos importantes:
+# !job_recommendation_model/
+# !*.csv
+# !*.pkl
+# !*.joblib

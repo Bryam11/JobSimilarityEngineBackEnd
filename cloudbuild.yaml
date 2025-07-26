@@ -1,0 +1,49 @@
+steps:
+  # Verificar archivos antes del build
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "=== VERIFICANDO ARCHIVOS ANTES DEL BUILD ==="
+        ls -la
+        echo "=== CONTENIDO DE job_recommendation_model/ ==="
+        ls -la job_recommendation_model/
+        echo "=== VERIFICANDO ARCHIVOS CSV ==="
+        find job_recommendation_model/ -name "*.csv" -ls
+        echo "=== TAMAÑO DE ARCHIVOS ==="
+        du -sh job_recommendation_model/*
+        echo "=== VERIFICACIÓN COMPLETA ==="
+
+  # Build de la imagen
+  - name: 'gcr.io/cloud-builders/docker'
+    args: 
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/jobsimilarityenginebackend:$COMMIT_SHA'
+      - '.'
+    timeout: '1200s'
+
+  # Push de la imagen
+  - name: 'gcr.io/cloud-builders/docker'
+    args: 
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/jobsimilarityenginebackend:$COMMIT_SHA'
+
+  # Deploy a Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'jobsimilarityenginebackend'
+      - '--image=gcr.io/$PROJECT_ID/jobsimilarityenginebackend:$COMMIT_SHA'
+      - '--region=europe-west1'
+      - '--platform=managed'
+      - '--memory=2Gi'
+      - '--timeout=300'
+      - '--concurrency=80'
+      - '--max-instances=10'
+      - '--allow-unauthenticated'
+
+timeout: '1800s'

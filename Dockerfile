@@ -21,12 +21,24 @@ RUN pip install --no-cache-dir --upgrade pip \
 
 # Copiar código de la aplicación y modelo
 COPY app_fastapi.py .
+
+# Crear directorio y copiar archivos del modelo de forma explícita
+RUN mkdir -p job_recommendation_model
+COPY job_recommendation_model/*.csv ./job_recommendation_model/
+COPY job_recommendation_model/*.pkl ./job_recommendation_model/
+COPY job_recommendation_model/*.joblib ./job_recommendation_model/
 COPY job_recommendation_model/ ./job_recommendation_model/
 
 # Verificar que los archivos se copiaron correctamente
-RUN ls -la job_recommendation_model/ && \
-    echo "Archivos en job_recommendation_model:" && \
-    find job_recommendation_model/ -type f -name "*.csv" -ls
+RUN echo "=== VERIFICACIÓN DE ARCHIVOS ===" && \
+    ls -la job_recommendation_model/ && \
+    echo "=== ARCHIVOS CSV ===" && \
+    find job_recommendation_model/ -name "*.csv" -ls && \
+    echo "=== ARCHIVOS PKL ===" && \
+    find job_recommendation_model/ -name "*.pkl" -ls && \
+    echo "=== TAMAÑO DE ARCHIVOS ===" && \
+    du -sh job_recommendation_model/* && \
+    echo "=== VERIFICACIÓN COMPLETA ==="
 
 # Exponer puerto
 EXPOSE 8080
